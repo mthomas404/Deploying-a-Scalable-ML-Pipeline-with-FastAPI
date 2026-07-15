@@ -1,28 +1,55 @@
 import pytest
-# TODO: add necessary import
-
-# TODO: implement the first test. Change the function name and input as needed
-def test_one():
-    """
-    # add description for the first test
-    """
-    # Your code here
-    pass
+from ml.model import train_model, compute_model_metrics, inference
+from sklearn.ensemble import RandomForestClassifier
 
 
-# TODO: implement the second test. Change the function name and input as needed
-def test_two():
+def test_train_model():
     """
-    # add description for the second test
+    Tests that the train_model() returns a RandomForestClassifier instance.
     """
-    # Your code here
-    pass
+    X_train = [
+        [0, 1],
+        [1, 0], 
+        [1, 1],
+        [0, 0]
+    ]
+    
+    y_train = [0, 1, 1, 0]
+    
+    model = train_model(X_train, y_train)
+    
+    assert isinstance(model, RandomForestClassifier)
 
 
-# TODO: implement the third test. Change the function name and input as needed
-def test_three():
+def test_model_metrics():
     """
-    # add description for the third test
+    Tests that compute_model_metrics returns the expected scores.
     """
-    # Your code here
-    pass
+    y_train = [1, 1, 1, 0]
+    preds = [1, 0, 0, 1]
+
+    precision, recall, fbeta = compute_model_metrics(y_train, preds)
+
+    assert precision == pytest.approx(0.5)
+    assert recall == pytest.approx(1 / 3)
+    assert fbeta == pytest.approx(0.4)  
+
+
+def test_inference():
+    """
+    Tests that inference() returns one prediction for each input.
+    """
+    X_train = [
+        [0, 1],
+        [1, 0], 
+        [1, 1],
+        [0, 0]
+    ]
+
+    y_train = [0, 1, 1, 0]
+
+    model = train_model(X_train, y_train)
+
+    preds = inference(model, X_train)
+
+    assert len(preds) == len(X_train)

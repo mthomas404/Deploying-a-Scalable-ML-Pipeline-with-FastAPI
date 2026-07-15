@@ -47,7 +47,8 @@ def performance_on_categorical_slice(
     column_name,
     slice_value,
     categorical_features,
-    label, encoder,
+    label, 
+    encoder,
     lb,
     model
 ):
